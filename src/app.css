@@ -1,0 +1,83 @@
+body {
+  background-image: url('background.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.App {
+  margin: auto;
+  max-width: 540px;
+  padding: 20px;
+}
+
+.game {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  border: 2px dashed;
+  position: relative;
+  background-color: aliceblue;
+}
+
+.game .img-container{
+  width: 60px;
+  height: 60px;
+  position: relative;
+  cursor: pointer;
+}
+
+.game img{
+  width: 100%;
+  pointer-events: none;
+} 
+
+.score-board {
+  padding: 20px;
+  background-color: palevioletred;
+  color: white;
+  margin-bottom: 10px;
+  font-size: 25px;
+  border-radius: 15px;
+  border: 2px solid white;
+}
+
+.game .img-container.vertical::before{
+  width: 5px;
+  height: 80%;
+  top:10% ;
+  left: 30%;
+  content: '';
+  position: absolute;
+  background-color: white;
+}
+.game .img-container.vertical::after{
+  width: 5px;
+  height: 80%;
+  top:10% ;
+  left: 60%;
+  content: '';
+  position: absolute;
+  background-color: white;
+}
+
+.game .img-container.horizontal::before{
+  height: 5px;
+  width: 80%;
+  top:30% ;
+  left: 10%;
+  content: '';
+  position: absolute;
+  background-color: white;
+}
+.game .img-container.horizontal::after{
+  height: 5px;
+  width: 80%;
+  top:60% ;
+  left: 10%;
+  content: '';
+  position: absolute;
+  background-color: white;
+
+}
