@@ -8,6 +8,7 @@ import redCandy from './images/red-candy.png';
 import yellowCandy from './images/yellow-candy.png';
 import blank from './images/blank.png';
 
+// Constants
 const WIDTH = 8;
 const candyColors = [
   blueCandy,
@@ -20,32 +21,39 @@ const candyColors = [
 
 export function App() {
   const [candies, setCandies] = useState([]);
-  const [score , setScore] = useState(0);
-  const [candyDragged,setCandyDragged]=useState(null);
-  const [candyToReplace,setCandyToReplace]=useState(null);
-  const currentCandies=useRef([])
+  const [score, setScore] = useState(0);
+  const [candyDragged, setCandyDragged] = useState(null);
+  const [candyToReplace, setCandyToReplace] = useState(null);
+  const currentCandies = useRef([]);
 
-  const playSound=(id)=>{
+  // Function to play sound
+  const playSound = (id) => {
     document.getElementById(id).play();
-  }
-  const setColToBlank=(index)=>{
-    const col=index%WIDTH;
+  };
+
+  // Function to clear a column by setting candies to blank
+  const setColToBlank = (index) => {
+    const col = index % WIDTH;
     for (let i = 0; i < WIDTH; i++) {
-      currentCandies.current[col+i*WIDTH].color=blank; 
-      currentCandies.current[col+i*WIDTH].modifier=''; 
+      currentCandies.current[col + i * WIDTH].color = blank;
+      currentCandies.current[col + i * WIDTH].modifier = '';
     }
-    updateScore(WIDTH)
-    playSound('line_blast')
-  }
-  const setRowToBlank=(index)=>{
-    const row=Math.floor(index/WIDTH);
-    for (let i = row*WIDTH; i < (row*WIDTH+WIDTH); i++) {
-      currentCandies.current[i].color=blank; 
-      currentCandies.current[i].modifier="";    
+    updateScore(WIDTH);
+    playSound('line_blast');
+  };
+
+  // Function to clear a row by setting candies to blank
+  const setRowToBlank = (index) => {
+    const row = Math.floor(index / WIDTH);
+    for (let i = row * WIDTH; i < row * WIDTH + WIDTH; i++) {
+      currentCandies.current[i].color = blank;
+      currentCandies.current[i].modifier = '';
     }
-    updateScore(WIDTH)
-    playSound('line_blast')
-  }
+    updateScore(WIDTH);
+    playSound('line_blast');
+  };
+
+  // Function to check for matches in columns
   const checkforColumns=(num,indexes=null)=>{
     for (let i = 0; i < (WIDTH*WIDTH-(num-1)*WIDTH); i++) {
       const columns=[];
@@ -84,6 +92,7 @@ export function App() {
       } 
     }
   }
+  // Function to check for matches in rows
   const checkforRows =(num,indexes=null)=>{
     for (let i = 0; i < WIDTH*WIDTH; i++) {
       const rows=[];
@@ -123,9 +132,11 @@ export function App() {
       } 
     }
   }
+  // Function to update the score
   const updateScore=(num)=>{
     setScore(prevScore=>prevScore+num)
   }
+  // Function to move candies down
   const moveIntoSquareBelow=()=>{
     for (let i = 0; i< (WIDTH*WIDTH-WIDTH); i++) {
       const isFirstRow=i<WIDTH;
@@ -144,12 +155,17 @@ export function App() {
      
     }
   }
-  const dragStart=(e)=>{
-    setCandyDragged(e.target)
-  }
-  const dragDrop=(e)=>{
-    setCandyToReplace(e.target)
-  }
+  // Function for drag start event
+  const dragStart = (e) => {
+    setCandyDragged(e.target);
+  };
+
+  // Function for drag drop event
+  const dragDrop = (e) => {
+    setCandyToReplace(e.target);
+  };
+
+  // Function for drag end event
   const dragEnd=(e)=>{
     const candyDraggedIndex=parseInt(candyDragged.getAttribute('data-index'))
     const candyToReplaceIndex=parseInt(candyToReplace.getAttribute('data-index'))
@@ -188,6 +204,7 @@ export function App() {
       playSound('negative_switch') 
     }
   }
+  // Function to create the initial game board
   const createBoard = () => {
     const randomCandies = [];
     for (let i = 0; i < WIDTH * WIDTH; i++) {
@@ -198,6 +215,7 @@ export function App() {
     currentCandies.current=randomCandies
     playSound('new_game')
   };
+  // Effect to initialize the game board and intervals
   useEffect(() => {
     createBoard();
 
