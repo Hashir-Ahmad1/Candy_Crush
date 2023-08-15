@@ -7,6 +7,11 @@ import purpleCandy from './images/purple-candy.png';
 import redCandy from './images/red-candy.png';
 import yellowCandy from './images/yellow-candy.png';
 import blank from './images/blank.png';
+import negative_switch from './sound/negative_switch.ogg';
+import new_game from './sound/new_game.ogg';
+import striped_candy_created from './sound/striped_candy_created.ogg';
+import line_blast from './sound/line_blast.ogg';
+import simple_blast from './sound/simple_blast.mp3';
 
 // Constants
 const WIDTH = 8;
@@ -28,7 +33,8 @@ export function App() {
 
   // Function to play sound
   const playSound = (id) => {
-    document.getElementById(id).play();
+    const audio = new Audio(id);
+    audio.play();
   };
 
   // Function to clear a column by setting candies to blank
@@ -39,7 +45,7 @@ export function App() {
       currentCandies.current[col + i * WIDTH].modifier = '';
     }
     updateScore(WIDTH);
-    playSound('line_blast');
+    playSound(line_blast);
   };
 
   // Function to clear a row by setting candies to blank
@@ -50,7 +56,7 @@ export function App() {
       currentCandies.current[i].modifier = '';
     }
     updateScore(WIDTH);
-    playSound('line_blast');
+    playSound(line_blast);
   };
 
   // Function to check for matches in columns
@@ -65,7 +71,7 @@ export function App() {
       if(empty) continue
       if(columns.every(c=>currentCandies.current[c].color===decidedColor)){
         updateScore(num)
-        playSound('simple_blast')
+        playSound(simple_blast)
         let specialCandyIndex=-1
         if(num>3){
           specialCandyIndex=columns.findIndex(col=>indexes?.includes(col))
@@ -75,7 +81,7 @@ export function App() {
         }
         for (let j = 0; j < columns.length; j++) {
           if(j===specialCandyIndex){
-            playSound('striped_candy_created');
+            playSound(striped_candy_created);
             currentCandies.current[columns[j]].modifier="horizontal"; 
             continue;
           }
@@ -105,7 +111,7 @@ export function App() {
 
       if(rows.every(c=>currentCandies.current[c].color===decidedColor)){
         updateScore(num)
-        playSound('simple_blast')
+        playSound(simple_blast)
         let specialCandyIndex=-1
         if(num>3){
           specialCandyIndex=rows.findIndex(row=>indexes?.includes(row))
@@ -115,7 +121,7 @@ export function App() {
         }
         for (let j = 0; j < rows.length; j++) {
           if(j===specialCandyIndex){
-            playSound('striped_candy_created');
+            playSound(striped_candy_created);
             currentCandies.current[rows[j]].modifier="vertical"; 
             continue;
           }
@@ -201,7 +207,7 @@ export function App() {
       currentCandies.current[candyToReplaceIndex].modifier=candyToReplace.getAttribute('data-modifier');
       currentCandies.current[candyDraggedIndex].color=candyDragged.getAttribute('data-src')
       currentCandies.current[candyDraggedIndex].modifier=candyDragged.getAttribute('data-modifier')
-      playSound('negative_switch') 
+      playSound(negative_switch) 
     }
   }
   // Function to create the initial game board
@@ -213,7 +219,7 @@ export function App() {
     }
     setCandies(randomCandies);
     currentCandies.current=randomCandies
-    playSound('new_game')
+    playSound(new_game)
   };
   // Effect to initialize the game board and intervals
   useEffect(() => {
